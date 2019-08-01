@@ -1,0 +1,10 @@
+import React, { Component } from 'react';
+import styles from './home.css';
+
+class Home extends Component {
+  render() {
+    return <div className={styles.normal}>Home</div>;
+  }
+}
+
+export default Home;

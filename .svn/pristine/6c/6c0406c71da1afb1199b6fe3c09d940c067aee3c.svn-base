@@ -1,0 +1,41 @@
+const path = require('path');
+// ref: https://umijs.org/config/
+export default {
+  treeShaking: true,
+  plugins: [
+    // ref: https://umijs.org/plugin/umi-plugin-react.html
+    [
+      'umi-plugin-react',
+      {
+        antd: false,
+        dva: false,
+        dynamicImport: false,
+        title: 'dzy',
+        dll: false,
+
+        routes: {
+          exclude: [/components\//],
+        },
+      },
+    ],
+  ],
+  history: 'hash',
+  // theme: './theme/theme.config.js',
+  cssModulesExcludes: ['.module.css', 'iconfont.css', 'global.css'],
+  chainWebpack(config, { webpack }) {
+    config.module
+      .rule('postcss')
+      .test(/[^(node_modules/)]\.css$/)
+      .use('postcss-loader')
+      .loader('px2rem-loader')
+      .before('postcss-loader') // this makes it work.
+      .options({ remUnit: 75, remPrecision: 8 });
+    config.merge({
+      resolve: {
+        alias: {
+          '@': path.resolve(__dirname, './src'),
+        },
+      },
+    });
+  },
+};

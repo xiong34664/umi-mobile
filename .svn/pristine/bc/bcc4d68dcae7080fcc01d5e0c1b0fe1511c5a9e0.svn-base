@@ -1,0 +1,22 @@
+/**
+ * title: Index
+ * Routes:
+ *   - ./src/routes/PrivateRoute.js
+ */
+import 'lib-flexible';
+import 'antd-mobile/dist/antd-mobile.css';
+import TabBar from '@/components/TabBar';
+import styles from './index.css';
+
+function BasicLayout(props) {
+  return (
+    <div className={styles.body}>
+      <div className={styles.children}>{props.children}</div>
+      <div className={styles.tabbar}>
+        <TabBar />
+      </div>
+    </div>
+  );
+}
+
+export default BasicLayout;

@@ -1,0 +1,116 @@
+import React from 'react';
+import { Router as DefaultRouter, Route, Switch } from 'react-router-dom';
+import dynamic from 'umi/dynamic';
+import renderRoutes from 'umi/lib/renderRoutes';
+import history from '@tmp/history';
+
+const Router = DefaultRouter;
+
+const routes = [
+  {
+    path: '/',
+    component: require('../../layouts/index.js').default,
+    routes: [
+      {
+        path: '/classify',
+        exact: true,
+        component: require('../classify.js').default,
+        tabber: true,
+        _title: 'dzy',
+        _title_default: 'dzy',
+      },
+      {
+        path: '/details',
+        exact: true,
+        component: require('../details.js').default,
+        tabber: false,
+        _title: 'dzy',
+        _title_default: 'dzy',
+      },
+      {
+        path: '/distributor',
+        exact: true,
+        component: require('../distributor.js').default,
+        tabber: true,
+        _title: 'dzy',
+        _title_default: 'dzy',
+      },
+      {
+        path: '/home',
+        exact: true,
+        component: require('../home.js').default,
+        tabber: true,
+        _title: 'dzy',
+        _title_default: 'dzy',
+      },
+      {
+        path: '/',
+        exact: true,
+        component: require('../index.js').default,
+        _title: 'dzy',
+        _title_default: 'dzy',
+      },
+      {
+        path: '/personal_center',
+        exact: true,
+        component: require('../personal_center.js').default,
+        tabber: true,
+        _title: 'dzy',
+        _title_default: 'dzy',
+      },
+      {
+        path: '/shopping_cart',
+        exact: true,
+        component: require('../shopping_cart.js').default,
+        tabber: true,
+        _title: 'dzy',
+        _title_default: 'dzy',
+      },
+      {
+        component: () =>
+          React.createElement(
+            require('D:/NH/dzy/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+              .default,
+            { pagesPath: 'src/pages', hasRoutesInConfig: false },
+          ),
+        _title: 'dzy',
+        _title_default: 'dzy',
+      },
+    ],
+    Routes: [require('../../routes/PrivateRoute.js').default],
+    _title: 'dzy',
+    _title_default: 'dzy',
+  },
+  {
+    component: () =>
+      React.createElement(
+        require('D:/NH/dzy/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+          .default,
+        { pagesPath: 'src/pages', hasRoutesInConfig: false },
+      ),
+    _title: 'dzy',
+    _title_default: 'dzy',
+  },
+];
+window.g_routes = routes;
+const plugins = require('umi/_runtimePlugin');
+plugins.applyForEach('patchRoutes', { initialValue: routes });
+
+// route change handler
+function routeChangeHandler(location, action) {
+  plugins.applyForEach('onRouteChange', {
+    initialValue: {
+      routes,
+      location,
+      action,
+    },
+  });
+}
+history.listen(routeChangeHandler);
+routeChangeHandler(history.location);
+
+export { routes };
+
+export default function RouterWrapper(props = {}) {
+  return <Router history={history}>{renderRoutes(routes, props)}</Router>;
+}

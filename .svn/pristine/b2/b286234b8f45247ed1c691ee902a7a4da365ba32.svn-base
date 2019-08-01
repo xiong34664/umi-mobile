@@ -1,0 +1,13 @@
+import { observable, action, computed } from 'mobx';
+class appState {
+  @observable selectedKey = '/index';
+  @observable isTabBar = true;
+  @observable isLogin = false;
+  @action toggleKey = key => (this.selectedKey = key);
+  @action login = () => (this.isLogin = true);
+  @action logout = () => (this.isLogin = false);
+  // @computed get getPathTwo () { return this.selectedKey.split('/')[2] }
+  // @computed get getPathThree () { return this.selectedKey.split('/')[3] }
+}
+
+export default new appState();

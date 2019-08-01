@@ -1,0 +1,13 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.children {
+  flex: 1;
+}
+
+.tabbar :global(.am-tab-bar) {
+  height: auto;
+}

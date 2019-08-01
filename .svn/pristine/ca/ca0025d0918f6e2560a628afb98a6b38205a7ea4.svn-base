@@ -1,0 +1,156 @@
+import React from 'react';
+import { Router as DefaultRouter, Route, Switch } from 'react-router-dom';
+import dynamic from 'umi/dynamic';
+import renderRoutes from 'umi/lib/renderRoutes';
+import history from '@tmp/history';
+
+const Router = DefaultRouter;
+
+const routes = [
+  {
+    path: '/',
+    component: __IS_BROWSER
+      ? dynamic({
+          loader: () => import('../../layouts/index.js'),
+          loading: require('D:/NH/dzy/src/components/loading.js').default,
+        })
+      : require('../../layouts/index.js').default,
+    routes: [
+      {
+        path: '/classify',
+        exact: true,
+        component: __IS_BROWSER
+          ? dynamic({
+              loader: () => import('../classify/index.js'),
+              loading: require('D:/NH/dzy/src/components/loading.js').default,
+            })
+          : require('../classify/index.js').default,
+        tabber: true,
+        _title: 'dzy',
+        _title_default: 'dzy',
+      },
+      {
+        path: '/detail',
+        exact: true,
+        component: __IS_BROWSER
+          ? dynamic({
+              loader: () => import('../detail/index.js'),
+              loading: require('D:/NH/dzy/src/components/loading.js').default,
+            })
+          : require('../detail/index.js').default,
+        tabber: false,
+        _title: 'dzy',
+        _title_default: 'dzy',
+      },
+      {
+        path: '/distributor',
+        exact: true,
+        component: __IS_BROWSER
+          ? dynamic({
+              loader: () => import('../distributor/index.js'),
+              loading: require('D:/NH/dzy/src/components/loading.js').default,
+            })
+          : require('../distributor/index.js').default,
+        tabber: true,
+        _title: 'dzy',
+        _title_default: 'dzy',
+      },
+      {
+        path: '/home',
+        exact: true,
+        component: __IS_BROWSER
+          ? dynamic({
+              loader: () => import('../home/index.js'),
+              loading: require('D:/NH/dzy/src/components/loading.js').default,
+            })
+          : require('../home/index.js').default,
+        tabber: true,
+        _title: 'dzy',
+        _title_default: 'dzy',
+      },
+      {
+        path: '/',
+        exact: true,
+        component: __IS_BROWSER
+          ? dynamic({
+              loader: () => import('../index/index.js'),
+              loading: require('D:/NH/dzy/src/components/loading.js').default,
+            })
+          : require('../index/index.js').default,
+        _title: 'dzy',
+        _title_default: 'dzy',
+      },
+      {
+        path: '/personal_center',
+        exact: true,
+        component: __IS_BROWSER
+          ? dynamic({
+              loader: () => import('../personal_center/index.js'),
+              loading: require('D:/NH/dzy/src/components/loading.js').default,
+            })
+          : require('../personal_center/index.js').default,
+        tabber: true,
+        _title: 'dzy',
+        _title_default: 'dzy',
+      },
+      {
+        path: '/shopping_cart',
+        exact: true,
+        component: __IS_BROWSER
+          ? dynamic({
+              loader: () => import('../shopping_cart/index.js'),
+              loading: require('D:/NH/dzy/src/components/loading.js').default,
+            })
+          : require('../shopping_cart/index.js').default,
+        tabber: true,
+        _title: 'dzy',
+        _title_default: 'dzy',
+      },
+      {
+        component: () =>
+          React.createElement(
+            require('D:/NH/dzy/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+              .default,
+            { pagesPath: 'src/pages', hasRoutesInConfig: false },
+          ),
+        _title: 'dzy',
+        _title_default: 'dzy',
+      },
+    ],
+    Routes: [require('../../routes/PrivateRoute.js').default],
+    _title: 'dzy',
+    _title_default: 'dzy',
+  },
+  {
+    component: () =>
+      React.createElement(
+        require('D:/NH/dzy/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+          .default,
+        { pagesPath: 'src/pages', hasRoutesInConfig: false },
+      ),
+    _title: 'dzy',
+    _title_default: 'dzy',
+  },
+];
+window.g_routes = routes;
+const plugins = require('umi/_runtimePlugin');
+plugins.applyForEach('patchRoutes', { initialValue: routes });
+
+// route change handler
+function routeChangeHandler(location, action) {
+  plugins.applyForEach('onRouteChange', {
+    initialValue: {
+      routes,
+      location,
+      action,
+    },
+  });
+}
+history.listen(routeChangeHandler);
+routeChangeHandler(history.location);
+
+export { routes };
+
+export default function RouterWrapper(props = {}) {
+  return <Router history={history}>{renderRoutes(routes, props)}</Router>;
+}
